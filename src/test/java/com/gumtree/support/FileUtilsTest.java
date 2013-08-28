@@ -2,7 +2,6 @@ package com.gumtree.support;
 
 import com.gumtree.model.Gender;
 import com.gumtree.model.Person;
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
@@ -15,7 +14,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Tests for file utils
@@ -23,7 +23,7 @@ import static junit.framework.Assert.*;
  */
 @RunWith(JUnit4.class)
 public class FileUtilsTest {
-    DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+    private DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
 
     @Test
     public void testMapToPersonListwithNullList() {
@@ -70,7 +70,7 @@ public class FileUtilsTest {
     public void testLoadFileContentwithMissingFile() throws IOException {
         File file = new File("ThisWillNotExist.ForSure");
 
-        List<String> result = FileUtils.loadFileContent(file);
+        FileUtils.loadFileContent(file);
     }
 
     @Test

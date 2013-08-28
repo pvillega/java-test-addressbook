@@ -30,9 +30,7 @@ public class FileUtils {
         List<String> data = loadFileContent(file);
 
         // process string array into persons
-        List<Person> list = mapToPersonList(data);
-
-        return list;
+        return mapToPersonList(data);
     }
 
     /**
