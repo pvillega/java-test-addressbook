@@ -1,6 +1,7 @@
 package com.gumtree.services;
 
 import com.gumtree.model.Person;
+import org.joda.time.Days;
 
 import java.util.List;
 
@@ -46,4 +47,37 @@ public class PersonOps {
     }
 
 
+    /**
+     * Finds a person in the list with the given name. If many persons have the same name only the first is returned
+     * @param name name of the person. It has to be the full name and match exactly
+     * @param persons list of persons to search
+     * @return a person in the list with the given name or null if not found or some of the parameters is null
+     */
+    public static Person findByNameInList(String name, List<Person> persons) {
+        Person person = null;
+        if(name != null && persons != null) {
+            for(Person p: persons) {
+                if(name.equals(p.getName())) {
+                    person = p;
+                    break;
+                }
+            }
+        }
+        return person;
+    }
+
+    /**
+     * Returns how many days older is old than young
+     * If the youngest person is given first, the result may be a negative number
+     * @param old oldest person
+     * @param young young person
+     * @return how many days older is old than young. 0 if any of them is null
+     */
+    public static int howMuchOlder(Person old, Person young) {
+        int days = 0;
+        if(old != null && young != null) {
+            days = Days.daysBetween(old.getDob(), young.getDob()).getDays();
+        }
+        return days;
+    }
 }

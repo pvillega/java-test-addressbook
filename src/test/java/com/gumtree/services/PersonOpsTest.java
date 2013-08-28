@@ -111,4 +111,83 @@ public class PersonOpsTest {
         Person result = PersonOps.findOldestPerson(list);
         assertEquals("Oldest person is p1", p1, result);
     }
+
+    @Test
+    public void testFindNameInListwithNull() {
+        Person result = PersonOps.findByNameInList(null, null);
+        assertNull("No person found when both null", result);
+
+        result = PersonOps.findByNameInList("", null);
+        assertNull("No person found when list is null", result);
+
+        result = PersonOps.findByNameInList(null, new ArrayList<Person>());
+        assertNull("No person found when name null", result);
+    }
+
+    @Test
+    public void testFindNameInListwithEmptyList() {
+        List<Person> list = new ArrayList<>();
+
+        Person result = PersonOps.findByNameInList("", list);
+        assertNull("No person found in empty list", result);
+    }
+
+    @Test
+    public void testFindNameInList() {
+        Person p1 = new Person("A", Gender.MALE, formatter.parseDateTime("01/01/1980"));
+        Person p2 = new Person("B", Gender.FEMALE, formatter.parseDateTime("01/01/1990"));
+        Person p3 = new Person("C", Gender.MALE, formatter.parseDateTime("01/01/1999"));
+
+        List<Person> list = new ArrayList<>();
+        list.add(p1);
+        list.add(p2);
+        list.add(p3);
+
+        Person result = PersonOps.findByNameInList("A", list);
+        assertEquals("Found by name is p1", p1, result);
+    }
+
+    @Test
+    public void testFindNameInListwithManyEqual() {
+        Person p1 = new Person("A", Gender.MALE, formatter.parseDateTime("01/01/1980"));
+        Person p2 = new Person("B", Gender.FEMALE, formatter.parseDateTime("01/01/1990"));
+        Person p3 = new Person("A", Gender.MALE, formatter.parseDateTime("01/01/1980"));
+
+        List<Person> list = new ArrayList<>();
+        list.add(p1);
+        list.add(p2);
+        list.add(p3);
+
+        Person result = PersonOps.findByNameInList("A", list);
+        assertEquals("Found by name is p1", p1, result);
+    }
+
+    @Test
+    public void testHowMuchOlderwithNull() {
+        Person p1 = new Person("A", Gender.MALE, formatter.parseDateTime("01/01/1980"));
+
+        int result = PersonOps.howMuchOlder(null, null);
+        assertEquals("0 days when both are null", 0, result);
+
+        result = PersonOps.howMuchOlder(null, p1);
+        assertEquals("0 days when once is null", 0, result);
+
+        result = PersonOps.howMuchOlder(p1, null);
+        assertEquals("0 days when once is null", 0, result);
+    }
+
+    @Test
+    public void testHowMuchOlder() {
+        Person p1 = new Person("A", Gender.MALE, formatter.parseDateTime("01/01/1980"));
+        Person p2 = new Person("B", Gender.FEMALE, formatter.parseDateTime("05/01/1980"));
+
+        int result = PersonOps.howMuchOlder(p1, p2);
+        assertEquals("p1 is 4 days older", 4, result);
+
+
+        p2 = new Person("B", Gender.FEMALE, formatter.parseDateTime("01/02/1980"));
+
+        result = PersonOps.howMuchOlder(p1, p2);
+        assertEquals("p1 is 31 days older", 31, result);
+    }
 }

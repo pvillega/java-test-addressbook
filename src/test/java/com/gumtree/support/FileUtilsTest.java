@@ -23,7 +23,7 @@ import static junit.framework.Assert.assertTrue;
  */
 @RunWith(JUnit4.class)
 public class FileUtilsTest {
-    private DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+    private DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
 
     @Test
     public void testMapToPersonListwithNullList() {
@@ -44,12 +44,12 @@ public class FileUtilsTest {
     @Test
     public void testMapToPersonList() {
 
-        Person a = new Person("A", Gender.FEMALE, formatter.parseDateTime("01/01/1980"));
-        Person b = new Person("B", Gender.MALE, formatter.parseDateTime("01/03/1930"));
+        Person a = new Person("A", Gender.FEMALE, formatter.parseDateTime("01/01/80"));
+        Person b = new Person("B", Gender.MALE, formatter.parseDateTime("01/03/30"));
 
         List<String> data = new ArrayList<>();
-        data.add("  A  ,  Female  ,   01/01/1980");
-        data.add("   B , Male, 01/03/1930");
+        data.add("  A  ,  Female  ,   01/01/80");
+        data.add("   B , Male, 01/03/30");
 
         List<Person> result = FileUtils.mapToPersonList(data);
 

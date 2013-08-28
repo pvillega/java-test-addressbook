@@ -9,7 +9,7 @@ import java.util.List;
 
 public class AddressBookApplication {
 
-    static String FILE = "../AddressBook";
+    static String FILE = "./AddressBook";
 
     public static void main(String[] args) throws Exception {
         // Read file and create data structure
@@ -25,6 +25,10 @@ public class AddressBookApplication {
         System.out.println("Oldest person is: " + oldest.toString());
 
         // 3. How many days older is Bill than Paul?
+        Person bill = PersonOps.findByNameInList("Bill McKnight", persons);
+        Person paul = PersonOps.findByNameInList("Paul Robinson", persons);
+        int days = PersonOps.howMuchOlder(bill, paul);
+        System.out.println("Bill is "+ days +" older than Paul");
     }
 
 

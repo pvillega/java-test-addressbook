@@ -14,6 +14,7 @@ public class Person {
 
     /**
      * Constructor
+     * It assumes that all the parameters are valid values and not null
      * @param name name of the person in the address book
      * @param gender gender of the person
      * @param dob date of birth of the person
@@ -31,11 +32,8 @@ public class Person {
 
         Person person = (Person) o;
 
-        if (!dob.equals(person.dob)) return false;
-        if (gender != person.gender) return false;
-        if (!name.equals(person.name)) return false;
+        return dob.equals(person.dob) && gender == person.gender && name.equals(person.name);
 
-        return true;
     }
 
     @Override

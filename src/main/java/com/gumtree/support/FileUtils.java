@@ -44,7 +44,7 @@ public class FileUtils {
         List<Person> list = new ArrayList<>();
 
         if (data != null) {
-            DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
 
             //iterate and convert each csv line
             for (String csv : data) {
