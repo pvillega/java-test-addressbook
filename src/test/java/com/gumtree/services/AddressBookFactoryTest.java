@@ -1,5 +1,6 @@
-package com.gumtree.support;
+package com.gumtree.services;
 
+import com.gumtree.model.AddressBook;
 import com.gumtree.model.Gender;
 import com.gumtree.model.Person;
 import org.joda.time.format.DateTimeFormat;
@@ -22,12 +23,12 @@ import static junit.framework.Assert.assertTrue;
  * User: pvillega
  */
 @RunWith(JUnit4.class)
-public class FileUtilsTest {
+public class AddressBookFactoryTest {
     private DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
 
     @Test
     public void testMapToPersonListwithNullList() {
-        List<Person> result = FileUtils.mapToPersonList(null);
+        List<Person> result = AddressBookFactory.mapToPersonList(null);
 
         assertTrue("List should be empty", result.isEmpty());
     }
@@ -36,7 +37,7 @@ public class FileUtilsTest {
     public void testMapToPersonListwithEmptyList() {
         List<String> data = new ArrayList<>();
 
-        List<Person> result = FileUtils.mapToPersonList(data);
+        List<Person> result = AddressBookFactory.mapToPersonList(data);
 
         assertTrue("List should be empty", result.isEmpty());
     }
@@ -51,7 +52,7 @@ public class FileUtilsTest {
         data.add("  A  ,  Female  ,   01/01/80");
         data.add("   B , Male, 01/03/30");
 
-        List<Person> result = FileUtils.mapToPersonList(data);
+        List<Person> result = AddressBookFactory.mapToPersonList(data);
 
         assertEquals("We expect 2 persons in list", 2, result.size() );
         assertEquals("We expect first person to be A", a, result.get(0));
@@ -61,7 +62,7 @@ public class FileUtilsTest {
 
     @Test
     public void testLoadFileContentwithNull() throws IOException {
-        List<String> result = FileUtils.loadFileContent(null);
+        List<String> result = AddressBookFactory.loadFileContent(null);
 
         assertTrue("List should be empty", result.isEmpty());
     }
@@ -70,24 +71,26 @@ public class FileUtilsTest {
     public void testLoadFileContentwithMissingFile() throws IOException {
         File file = new File("ThisWillNotExist.ForSure");
 
-        FileUtils.loadFileContent(file);
+        AddressBookFactory.loadFileContent(file);
     }
 
     @Test
-    public void testLoadFileContent() throws IOException {
-
+    public void testGetAddressBookFromFile() throws IOException {
         URL path = this.getClass().getResource("/AddressBook");
         File file = new File(path.getPath());
 
-        List<String> result = FileUtils.loadFileContent(file);
+        AddressBook addressBook  = AddressBookFactory.getAddressBookFromFile(file);
 
-        assertEquals("We expect 5 persons in list", 5, result.size() );
+        assertEquals("We expect 5 persons in address book", 5, addressBook.size() );
+    }
 
-        assertEquals("We expect first person to be Bill","Bill McKnight, Male, 16/03/77", result.get(0));
-        assertEquals("We expect second person to be Paul","Paul Robinson, Male, 15/01/85", result.get(1));
-        assertEquals("We expect third person to be Gemma","Gemma Lane, Female, 20/11/91", result.get(2));
-        assertEquals("We expect fourth person to be Sarah","Sarah Stone, Female, 20/09/80", result.get(3));
-        assertEquals("We expect fifth person to be Wes","Wes Jackson, Male, 14/08/74", result.get(4));
+    @Test
+    public void testGetAddressBookFromPath() throws IOException {
+        URL path = this.getClass().getResource("/AddressBook");
+
+        AddressBook addressBook  = AddressBookFactory.getAddressBookFromPath(path.getPath());
+
+        assertEquals("We expect 5 persons in address book", 5, addressBook.size() );
     }
 
 }

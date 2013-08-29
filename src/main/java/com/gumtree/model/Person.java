@@ -1,6 +1,7 @@
 package com.gumtree.model;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 /**
  * Represents a person in the address book
@@ -74,6 +75,20 @@ public class Person {
 
     public boolean isFemale(){
         return getGender().equals(Gender.FEMALE);
+    }
+
+    /**
+     * Returns how many days older is the current Person than the given one. The result may be a negative number if the current person is younger
+     *
+     * @param person person to compare to
+     * @return how many days older is the current person than the given one. 0 if the parameter is null
+     */
+    public int howManyDaysOlderThan(Person person) {
+        int days = 0;
+        if (person != null) {
+            days = Days.daysBetween(this.getDob(), person.getDob()).getDays();
+        }
+        return days;
     }
 
     @Override

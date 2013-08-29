@@ -1,36 +1,50 @@
-package com.gumtree.support;
+package com.gumtree.services;
 
+import com.gumtree.model.AddressBook;
 import com.gumtree.model.Gender;
 import com.gumtree.model.Person;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Support methods to load data form files
+ * Creates instances of AddressBook
  * User: pvillega
  */
-public class FileUtils {
+public class AddressBookFactory {
 
     /**
-     * Loads a file containing address book entries into an array of persons
-     *
-     * @param path path to the file to load
-     * @return list of persons in the address book file
-     * @throws IOException there was a problem loading the file
+     * Create an address book from a file located in the given path. The file has to follow the address book format
+     * @param path path of a file to load
+     * @return an address book with the data contained on the file.
+     * @throws java.io.IOException we could not read the file
      */
-    public static List<Person> loadDataFile(String path) throws IOException {
+    public static AddressBook getAddressBookFromPath(String path) throws IOException {
         File file = new File(path);
+        return getAddressBookFromFile(file);
+    }
 
+    /**
+     * Create an address book from the given file. The file has to follow the address book format
+     * @param source file to load into the address book
+     * @return an address book with the data contained on the file.
+     * @throws java.io.IOException we could not read the file
+     */
+    public static AddressBook getAddressBookFromFile(File source) throws IOException {
         // load file into string array
-        List<String> data = loadFileContent(file);
+        List<String> data = loadFileContent(source);
 
-        // process string array into persons
-        return mapToPersonList(data);
+        // process strings into persons
+        List<Person> persons =  mapToPersonList(data);
+
+        return new AddressBook(persons);
     }
 
     /**
@@ -75,7 +89,7 @@ public class FileUtils {
      *
      * @param file file to load
      * @return string list with the contents of the file, one line per entry. Empty list if file is null.
-     * @throws IOException we could not read the file
+     * @throws java.io.IOException we could not read the file
      */
     static List<String> loadFileContent(File file) throws IOException {
         List<String> list = new ArrayList<>();
@@ -93,6 +107,5 @@ public class FileUtils {
 
         return list;
     }
-
 
 }
